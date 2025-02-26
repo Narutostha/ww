@@ -33,7 +33,7 @@ const Index = () => {
             className="w-full h-full object-cover"
           >
             <source
-              src="https://ln5.sync.com/dl/5e86e28c0#cytvjwgf-73cpbtpe-bpqdpd4v-w5ta4tac"
+              src="/F (1) (1).mp4"
               type="video/mp4"
             />
           </video>
