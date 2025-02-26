@@ -78,7 +78,7 @@ export default function SizeGuide() {
           className="text-center mb-8"
         >
           <h1 className="text-4xl font-light mb-3 text-gray-800">SIZE GUIDE</h1>
-          <p className="text-gray-500 max-w-2xl mx-auto">Find your perfect fit with our detailed size guide. All measurements are in centimeters.</p>
+          <p className="text-gray-500 max-w-2xl mx-auto">Find your perfect fit with our detailed size guide. All measurements are in Inch.</p>
         </motion.div>
         
         <Tabs defaultValue={categories[0].name} className="space-y-8">
@@ -116,7 +116,7 @@ export default function SizeGuide() {
                     </div>
                     <div className="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full">
                       <Ruler className="h-4 w-4 text-gray-500" />
-                      <span className="text-xs text-gray-600">cm</span>
+                      <span className="text-xs text-gray-600">Inch</span>
                     </div>
                   </div>
                   
