@@ -10,7 +10,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
       <SEO 
-        title="BLU AWAY"
+        title="BLUAWAY"
         description="Discover our exclusive urban streetwear collection. Sustainable fashion meets contemporary design in our premium quality clothing line."
         keywords="urban streetwear, sustainable fashion, premium clothing, streetwear collection"
       />
@@ -61,7 +61,7 @@ const Index = () => {
             Shop
           </motion.button>
           <p className="text-base sm:text-lg md:text-xl tracking-widest opacity-80 text-center px-4">
-            BLU AWAY 
+            BLUAWAY 
           </p>
         </motion.div>
 
