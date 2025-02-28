@@ -7,7 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CheckCircle2, CreditCard, Phone, Copy, MessageSquare, ArrowRight, ShoppingBag } from "lucide-react";
 import { formatNPR } from "@/lib/utils";
 import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
+import Cart from "../components/Cart";
 import { toast } from "sonner";
 
 export default function ThankYou() {
@@ -45,7 +45,7 @@ export default function ThankYou() {
   return (
     <div className="min-h-screen bg-[#FCF7F5]">
       <Sidebar />
-      <Navbar />
+      <Cart />
       
       <div className="max-w-4xl mx-auto pt-24 px-4 sm:px-6 lg:px-8 pb-16">
         <motion.div
