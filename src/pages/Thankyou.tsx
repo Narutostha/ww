@@ -8,8 +8,8 @@ import { CheckCircle2, CreditCard, Phone, Copy, MessageSquare, ArrowRight, Shopp
 import { formatNPR } from "@/lib/utils";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
-import Footer from "@/components/Footer";
 import { toast } from "sonner";
+
 
 export default function ThankYou() {
   const navigate = useNavigate();
@@ -246,7 +246,6 @@ export default function ThankYou() {
         </motion.div>
       </div>
       
-      <Footer />
     </div>
   );
 }

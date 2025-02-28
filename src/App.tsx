@@ -33,7 +33,6 @@ import AdminCustomers from "./pages/admin/Customers";
 import AdminAnalytics from "./pages/admin/Analytics";
 import AdminSettings from "./pages/admin/Settings";
 import CreateAdmin from "./pages/admin/CreateAdmin";
-import AdminGuide from "../src/components/AdminGuide";
 import Giniz from "./pages/Giniz";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -85,10 +84,10 @@ const App = () => (
               <Route path="/admin/analytics" element={<AdminLayout><AdminAnalytics /></AdminLayout>} />
               <Route path="/admin/settings" element={<AdminLayout><AdminSettings /></AdminLayout>} />
               <Route path="/admin/create-admin" element={<AdminLayout><CreateAdmin /></AdminLayout>} />
-              <Route path="/admin/guide" element={<AdminLayout><AdminGuide /></AdminLayout>} />
-            </Route>
+              </Route>
             
             {/* 404 Routes */}
+            
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
