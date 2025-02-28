@@ -108,7 +108,7 @@ export default function ThankYou() {
                     <div className="flex justify-between items-center mb-2">
                       <p className="text-sm font-medium">Merchant Name</p>
                       <div className="flex items-center gap-2">
-                        <p className="text-sm">Blu Away</p>
+                        <p className="text-sm">Urban Streetwear</p>
                         <Button 
                           variant="ghost" 
                           size="icon" 
@@ -245,6 +245,6 @@ export default function ThankYou() {
         </motion.div>
       </div>
       
-     </div>
+    </div>
   );
 }
