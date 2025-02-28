@@ -1,15 +1,17 @@
-  import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { CartProvider } from "./contexts/CartContext";
 import AdminLayout from "./components/admin/Layout";
+import AdminRoute from "./components/AdminRoute";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import ThankYou from "./pages/thankyou";
 import Orders from "./pages/Orders";
 import Profile from "./pages/Profile";
 import Login from "./pages/auth/Login";
@@ -31,9 +33,9 @@ import AdminCustomers from "./pages/admin/Customers";
 import AdminAnalytics from "./pages/admin/Analytics";
 import AdminSettings from "./pages/admin/Settings";
 import CreateAdmin from "./pages/admin/CreateAdmin";
+import AdminGuide from "../src/components/AdminGuide";
 import Giniz from "./pages/Giniz";
 import PrivateRoute from "./components/PrivateRoute";
-import ThankYou from "./pages/thankyou";
 
 const queryClient = new QueryClient();
 
@@ -57,7 +59,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/foundation" element={<Foundation />} />
-            <Route path="/brandvision" element={<Sustainability />} />
+            <Route path="/sustainability" element={<Sustainability />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/giniz" element={<Giniz />} />
             
@@ -72,15 +74,21 @@ const App = () => (
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
-            <Route path="/admin/products" element={<AdminLayout><AdminProducts /></AdminLayout>} />
-            <Route path="/admin/orders" element={<AdminLayout><AdminOrders /></AdminLayout>} />
-            <Route path="/admin/orders/:id" element={<AdminLayout><AdminOrderDetails /></AdminLayout>} />
-            <Route path="/admin/customers" element={<AdminLayout><AdminCustomers /></AdminLayout>} />
-            <Route path="/admin/analytics" element={<AdminLayout><AdminAnalytics /></AdminLayout>} />
-            <Route path="/admin/settings" element={<AdminLayout><AdminSettings /></AdminLayout>} />
-            <Route path="/admin/create-admin" element={<AdminLayout><CreateAdmin /></AdminLayout>} />
             
+            {/* Protected Admin Routes */}
+            <Route element={<AdminRoute />}>
+              <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
+              <Route path="/admin/products" element={<AdminLayout><AdminProducts /></AdminLayout>} />
+              <Route path="/admin/orders" element={<AdminLayout><AdminOrders /></AdminLayout>} />
+              <Route path="/admin/orders/:id" element={<AdminLayout><AdminOrderDetails /></AdminLayout>} />
+              <Route path="/admin/customers" element={<AdminLayout><AdminCustomers /></AdminLayout>} />
+              <Route path="/admin/analytics" element={<AdminLayout><AdminAnalytics /></AdminLayout>} />
+              <Route path="/admin/settings" element={<AdminLayout><AdminSettings /></AdminLayout>} />
+              <Route path="/admin/create-admin" element={<AdminLayout><CreateAdmin /></AdminLayout>} />
+              <Route path="/admin/guide" element={<AdminLayout><AdminGuide /></AdminLayout>} />
+            </Route>
+            
+            {/* 404 Routes */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
