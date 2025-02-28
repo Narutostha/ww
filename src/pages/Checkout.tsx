@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
-import { Loader2, ShoppingBag, AlertCircle } from "lucide-react";
+import { Loader2, ShoppingBag, AlertCircle, Truck, CreditCard, Phone, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Sidebar from "../components/Sidebar";
 import Cart from "../components/Cart";
@@ -21,6 +21,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  RadioGroup,
+  RadioGroupItem
+} from "@/components/ui/radio-group";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Checkout() {
   const { state, dispatch } = useCart();
@@ -28,6 +33,8 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [generalError, setGeneralError] = useState<string>("");
+  const [shippingMethod, setShippingMethod] = useState("domestic");
+  const [paymentMethod, setPaymentMethod] = useState("fonepay");
   
   const [formData, setFormData] = useState({
     firstName: "",
@@ -45,6 +52,10 @@ export default function Checkout() {
     queryKey: ['auth'],
     queryFn: isAuthenticated
   });
+
+  // Calculate shipping cost
+  const shippingCost = 100; // Rs 200 for domestic shipping
+  const totalWithShipping = state.total + shippingCost;
 
   // Redirect to login if not authenticated
   if (!authLoading && !isAuth) {
@@ -100,14 +111,22 @@ export default function Checkout() {
         throw new Error('Your cart is empty');
       }
 
-      // Create order
+      // Create order with shipping and payment info
       const { data: order, error: orderError } = await supabase
         .from('orders')
         .insert([{
           user_id: user.id,
-          total: state.total,
+          total: totalWithShipping,
           status: 'PENDING',
-          shipping_info: formData
+          shipping_info: {
+            ...formData,
+            shippingMethod,
+            shippingCost
+          },
+          payment_info: {
+            method: paymentMethod,
+            status: 'pending'
+          }
         }])
         .select()
         .single();
@@ -167,12 +186,22 @@ export default function Checkout() {
           throw new Error(`Error processing ${item.name}: ${itemError.message}`);
         }
       }
-
+      
       // Clear cart
       dispatch({ type: 'CLEAR_CART' });
       
-      toast.success('Order placed successfully!');
-      navigate('/orders');
+      // Navigate to thank you page with order details
+      navigate('/thank-you', { 
+        state: { 
+          orderDetails: {
+            orderId: order.id,
+            total: totalWithShipping,
+            paymentMethod,
+            shippingInfo: formData
+          }
+        }
+      });
+      
     } catch (error: any) {
       console.error('Checkout error:', error);
       setGeneralError(error.message || 'An unexpected error occurred');
@@ -229,7 +258,7 @@ export default function Checkout() {
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
           {/* Checkout Form */}
-          <div>
+          <div className="space-y-6">
             <h2 className="text-2xl font-semibold mb-6">Shipping Information</h2>
             
             <AnimatePresence>
@@ -249,7 +278,7 @@ export default function Checkout() {
               )}
             </AnimatePresence>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="firstName">First Name</Label>
@@ -374,6 +403,73 @@ export default function Checkout() {
                 )}
               </div>
 
+              {/* Shipping Method */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Truck className="h-5 w-5" />
+                    Shipping Method
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <RadioGroup
+                    value={shippingMethod}
+                    onValueChange={setShippingMethod}
+                    className="space-y-4"
+                  >
+                    <div className="flex items-center justify-between space-x-2 border rounded-lg p-4">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="domestic" id="domestic" />
+                        <Label htmlFor="domestic">Domestic Shipping</Label>
+                      </div>
+                      <span className="font-medium">Rs {shippingCost.toFixed(2)}</span>
+                    </div>
+                  </RadioGroup>
+                </CardContent>
+              </Card>
+
+              {/* Payment Method */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <CreditCard className="h-5 w-5" />
+                    Payment Method
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <RadioGroup
+                    value={paymentMethod}
+                    onValueChange={setPaymentMethod}
+                    className="space-y-4"
+                  >
+                    <div className="flex items-center space-x-2 border rounded-lg p-4">
+                      <RadioGroupItem value="fonepay" id="fonepay" />
+                      <div className="flex-1">
+                        <Label htmlFor="fonepay" className="flex items-center gap-2">
+                          Fonepay
+                          <MessageSquare className="h-4 w-4 text-green-500" />
+                        </Label>
+                        <p className="text-sm text-muted-foreground">
+                          After checkout, a QR code scanner will pop up for payment. For additional verification, send the payment screenshot via WhatsApp to 9802338967.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2 border rounded-lg p-4">
+                      <RadioGroupItem value="cod" id="cod" />
+                      <div className="flex-1">
+                        <Label htmlFor="cod" className="flex items-center gap-2">
+                          Cash on Delivery
+                          <Phone className="h-4 w-4 text-blue-500" />
+                        </Label>
+                        <p className="text-sm text-muted-foreground">
+                          You will get a call between 10am-6pm for confirmation.
+                        </p>
+                      </div>
+                    </div>
+                  </RadioGroup>
+                </CardContent>
+              </Card>
+
               <Button 
                 type="submit" 
                 className="w-full bg-black hover:bg-black/90 text-white h-12"
@@ -385,7 +481,7 @@ export default function Checkout() {
                     Processing Order...
                   </>
                 ) : (
-                  `Pay ${formatNPR(state.total)}`
+                  `Pay ${formatNPR(totalWithShipping)}`
                 )}
               </Button>
             </form>
@@ -421,16 +517,25 @@ export default function Checkout() {
                 ))}
               </div>
 
-              <div className="mt-6 pt-6 border-t border-gray-100">
-                <div className="flex justify-between items-center text-lg font-semibold text-gray-900">
-                  <p>Total Amount</p>
-                  <p>{formatNPR(state.total)}</p>
+              <div className="mt-6 pt-6 border-t border-gray-100 space-y-4">
+                <div className="flex justify-between items-center">
+                  <p className="text-gray-600">Subtotal</p>
+                  <p className="font-medium">{formatNPR(state.total)}</p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-gray-600">Shipping</p>
+                  <p className="font-medium">{formatNPR(shippingCost)}</p>
+                </div>
+                <div className="flex justify-between items-center text-lg font-semibold">
+                  <p>Total</p>
+                  <p>{formatNPR(totalWithShipping)}</p>
                 </div>
               </div>
             </div>
           </div>
         </motion.div>
       </div>
+      
     </div>
   );
 }

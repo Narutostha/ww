@@ -9,7 +9,7 @@ interface SEOProps {
 }
 
 export function SEO({ title, description, keywords, image, url }: SEOProps) {
-  const siteUrl = 'https://example.com'; // Replace with your actual domain
+  const siteUrl = 'https://www.bluawayofficial.com/'; // Replace with your actual domain
   const defaultImage = '/og-image.png';
 
   return (

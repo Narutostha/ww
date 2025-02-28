@@ -29,9 +29,10 @@ export const CONTACT = {
 };
 
 export const SOCIAL_MEDIA = {
-  facebook: 'https://facebook.com/yourstore',
-  instagram: 'https://instagram.com/yourstore',
-  tiktok: 'https://tiktok.com/@yourstore'
+  facebook: 'https://www.facebook.com/people/Bluaway/61571966904270/',
+  instagram: 'https://www.instagram.com/bluawayofficial/',
+  tiktok: 'https://www.tiktok.com/@bluawayofficial'
+
 };
 
 export const REGIONS = {

@@ -109,7 +109,7 @@ export default function OrderDetails() {
               </div>
               <div>
                 <dt className="text-sm font-medium text-muted-foreground">Total</dt>
-                <dd className="text-sm font-medium">£{order.total.toFixed(2)}</dd>
+                <dd className="text-sm font-medium">NPR {order.total.toFixed(2)}</dd>
               </div>
             </dl>
           </CardContent>
@@ -212,9 +212,9 @@ export default function OrderDetails() {
                     </div>
                   </TableCell>
                   <TableCell>{item.quantity}</TableCell>
-                  <TableCell>£{item.price.toFixed(2)}</TableCell>
+                  <TableCell>NPR {item.price.toFixed(2)}</TableCell>
                   <TableCell className="font-medium">
-                    £{(item.price * item.quantity).toFixed(2)}
+                    NPR {(item.price * item.quantity).toFixed(2)}
                   </TableCell>
                 </TableRow>
               ))}
@@ -223,7 +223,7 @@ export default function OrderDetails() {
                   Subtotal
                 </TableCell>
                 <TableCell className="font-medium">
-                  £{order.total.toFixed(2)}
+                  NPR {order.total.toFixed(2)}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -231,7 +231,7 @@ export default function OrderDetails() {
                   Shipping
                 </TableCell>
                 <TableCell className="font-medium">
-                  {order.total >= 105 ? 'Free' : '£5.00'}
+                  {order.total >= 105 ? 'Free' : 'NPR 5.00'}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -239,7 +239,7 @@ export default function OrderDetails() {
                   Total
                 </TableCell>
                 <TableCell className="font-bold text-lg">
-                  £{order.total.toFixed(2)}
+                  NPR {order.total.toFixed(2)}
                 </TableCell>
               </TableRow>
             </TableBody>

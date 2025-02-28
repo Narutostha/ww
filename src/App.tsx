@@ -33,6 +33,7 @@ import AdminSettings from "./pages/admin/Settings";
 import CreateAdmin from "./pages/admin/CreateAdmin";
 import Giniz from "./pages/Giniz";
 import PrivateRoute from "./components/PrivateRoute";
+import ThankYou from "./pages/thankyou";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,7 @@ const App = () => (
             {/* Protected Routes */}
             <Route element={<PrivateRoute />}>
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/thank-you" element={<ThankYou />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/profile" element={<Profile />} />
             </Route>
