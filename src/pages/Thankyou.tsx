@@ -10,7 +10,6 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import { toast } from "sonner";
 
-
 export default function ThankYou() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -245,7 +244,6 @@ export default function ThankYou() {
           </div>
         </motion.div>
       </div>
-      
     </div>
   );
 }
